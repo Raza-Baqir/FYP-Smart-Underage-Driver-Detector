@@ -1,0 +1,56 @@
+body {
+    position: relative;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/static/img/pic2.jpg') no-repeat center center/cover; /* Replace with your background image path */
+    height: 100vh; /* Full viewport height */
+}
+
+h1 {
+    font-size: 3em;
+    margin: 0; /* Remove default margin */
+}
+
+/* Overlay for better readability */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1; /* Position it behind the text */
+}
+
+/* Container to center content */
+.container {
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+    color: white; 
+    z-index: 2; 
+    text-align: center; 
+}
+
+/* Button styles */
+.buttons-container {
+    margin-top: 20px; 
+}
+
+.btn {
+    background-color: #007BFF; /* Button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from links */
+    margin: 5px; /* Space between buttons */
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}

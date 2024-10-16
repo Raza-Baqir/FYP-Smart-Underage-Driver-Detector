@@ -1,0 +1,6 @@
+Flask
+Werkzeug
+mysql-connector-python
+Flask-MySQLdb
+Flask-SQLAlchemy
+flask_migrate

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo1.png') }}" alt="Logo" class="logo">
+        </div>
+        <div class="logout-container">
+            <p>Welcome, <a href="{{ url_for('update_profile') }}">{{ name }}</a>!</p>
+
+            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        </div>
+    </header>
+
+
+    <div class="dashboard-container">
+        <h1>Welcome to the Dashboard</h1>
+        <div class="card-container">
+            <div class="card">
+                <h2>Add Location</h2>
+                <p>Add a new camera location to start monitoring.</p>
+                <a href="{{ url_for('add_location') }}" class="btn-dashboard">Add Location</a>
+            </div>
+
+            <div class="card">
+                <h2>Delete Location</h2>
+                <p>Remove a camera location from the list.</p>
+                <a href="{{ url_for('delete_location') }}" class="btn-dashboard">Delete Location</a>
+            </div>
+
+            <div class="card">
+                <h2>Start Capture</h2>
+                <p>Start capturing footage from your camera.</p>
+                <a href="{{ url_for('start_capturing') }}" class="btn-dashboard">Start Capture</a>
+            </div>
+
+            <div class="card">
+                <h2>View Record</h2>
+                <p>View previously captured footage and records.</p>
+                <a href="{{ url_for('show_results') }}" class="btn-dashboard">View Records</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

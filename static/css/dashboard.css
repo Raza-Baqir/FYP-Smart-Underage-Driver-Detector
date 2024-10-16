@@ -1,0 +1,159 @@
+/* General page styling */
+body {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.user-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Logo styling */
+.logo-container {
+    flex: 1;
+}
+
+.logo {
+    width: 140px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Logout button styling */
+.logout-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-radius: 25px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 20px;
+
+}
+
+.logout-container h2 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+    font-weight: bold;
+}
+
+.btn-logout {
+    padding: 12px 25px;
+    background-color: #ff4b5c;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(255, 75, 92, 0.2);
+}
+
+.btn-logout:hover {
+    background-color: #e84352;
+    box-shadow: 0px 8px 16px rgba(255, 75, 92, 0.3);
+}
+
+/* Dashboard container */
+.dashboard-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 40px;
+}
+
+/* Dashboard title */
+h1 {
+    font-size: 2.8rem;
+    color: #333;
+    margin-bottom: 40px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Card container */
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Card styling */
+.card {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Card title */
+.card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+/* Card description */
+.card p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: #7f8c8d;
+    line-height: 1.5;
+}
+
+/* Button styling */
+.btn-dashboard {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #000;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.btn-dashboard:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 8px 20px rgba(0, 123, 255, 0.3);
+}

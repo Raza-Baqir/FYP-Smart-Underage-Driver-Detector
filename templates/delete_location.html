@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/delete_location.css') }}">
+    <title>Delete Location</title>
+</head>
+
+<body>
+
+    <div class="location-form-container">
+        <div class="form-box">
+            <h2>Delete Location</h2>
+
+            <!-- Show success/error messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+
+            <!-- List of locations with delete button -->
+            <form method="POST" action="{{ url_for('delete_location') }}">
+                <label for="location">Select Location to Delete:</label>
+                <select name="location_id" id="location" required>
+                    {% for location in locations %}
+                    <option value="{{ location.id }}">{{ location.location_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="submit-btn">Delete Location</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to fade out flash messages after 5 seconds
+        setTimeout(function () {
+            const flashMessages = document.querySelectorAll('.flash-messages');
+            flashMessages.forEach(function (message) {
+                message.style.opacity = '0';
+                setTimeout(function () {
+                    message.remove(); // Remove the element from the DOM after fading out
+                }, 500); // Match this duration with the CSS transition duration
+            });
+        }, 3000); // 5000ms = 3 seconds
+    </script>
+
+</body>
+
+</html>
