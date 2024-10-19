@@ -5,12 +5,10 @@ from flask import session
 from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash , check_password_hash
-from datetime import datetime, timedelta
+from datetime import datetime , timedelta
 from flask_migrate import Migrate
 
-
 import re
-
 app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(minutes=30)
@@ -51,11 +49,9 @@ class Result(db.Model):
 
     location = db.relationship('Location', backref=db.backref('results', lazy=True))
 
-
 # Create the database tables
 with app.app_context():
     db.create_all()
-
 
 # Home route
 @app.route('/')
@@ -145,7 +141,6 @@ def signup():
     return render_template('signup.html')
 
 
-
 # Update Profile route
 @app.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
@@ -169,7 +164,6 @@ def update_profile():
         return redirect(url_for('dashboard'))
 
     return render_template('update_profile.html', user=user)
-
 
 
 # Dashboard route
