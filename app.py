@@ -1,26 +1,21 @@
 from flask import Flask
-from flask import render_template
-from flask import redirect
-from flask import url_for
+from flask import render_template, redirect, url_for
 from flask import request
 from flask import session
 from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash , check_password_hash
-from datetime import datetime 
-# import os
-import re
-from datetime import timedelta
+from datetime import datetime, timedelta
 from flask_migrate import Migrate
 
+
+import re
 
 app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(minutes=30)
 
-
 app.secret_key = 'Secret_key'
-
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://razabaqir:raza@localhost/smart_underage_driver_detector'
@@ -55,6 +50,7 @@ class Result(db.Model):
     underage_status = db.Column(db.Boolean, nullable=False)
 
     location = db.relationship('Location', backref=db.backref('results', lazy=True))
+
 
 # Create the database tables
 with app.app_context():
@@ -94,7 +90,9 @@ def login():
 
         # Check if the user exists and password matches
         if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
             session['email'] = user.email
+            session['logged_in'] = True 
             session.permanent = True  # Set session timeout
             return redirect(url_for('dashboard'))
         else:
@@ -107,7 +105,7 @@ def login():
 # Signup route 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    session.pop('_flashes',None)
+
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -126,17 +124,20 @@ def signup():
         # Phone validation
         if not re.match(phone_regex, phone):
             flash('Invalid phone number! It should be 11 digits long.', 'error')
-            return render_template('signup.html')
+            # return render_template('signup.html',name=name, email=email)
 
         # Password validation
         if not re.match(password_regex, password):
             flash('Password must be at least 8 characters long and include both letters and numbers.', 'error')
-            return render_template('signup.html')
+            # return render_template('signup.html', name=name, email=email, phone=phone)
 
         # Create a new user if no errors
         new_user = User(name = name, email=email, phone=phone, password=generate_password_hash(password))
         db.session.add(new_user)
         db.session.commit()
+
+        session['user_id'] = new_user.id
+        session['logged_in'] = True
 
         flash('Account created successfully!', 'success')
         return redirect(url_for('dashboard'))
@@ -174,11 +175,20 @@ def update_profile():
 # Dashboard route
 @app.route('/dashboard')
 def dashboard():
-    if 'email' not in session:
+    # Check if the user is logged in by verifying session
+    if 'user_id' not in session:
         return redirect(url_for('login'))
     
-    user = User.query.filter_by(email=session['email']).first()
-    return render_template('dashboard.html', name = user.name)
+    # Query the user based on the stored user_id in session
+    user = User.query.filter_by(id=session['user_id']).first()
+    
+    if not user:
+        flash('User not found. Please log in again.', 'error')
+        return redirect(url_for('login'))
+
+    # Pass the user's name to the dashboard template
+    return render_template('dashboard.html', name=user.name)
+
 
 # Add Location route
 @app.route('/add_location', methods=['GET', 'POST'])
