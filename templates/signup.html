@@ -10,7 +10,7 @@
     <div class="signup-container">
         <div class="form-box">
             <h2>Create an account</h2>
-            <p>
+            
                 {% with messages = get_flashed_messages(with_categories=True) %}
                     {% if messages %}
                         <ul class="flash-messages">
@@ -20,7 +20,7 @@
                         </ul>
                     {% endif %}
                 {% endwith %}
-            </p>
+
             <form action="/signup" method="POST">
 
                 <label for="name">Name</label>
