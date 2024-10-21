@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(minutes=30)
 
-app.secret_key = 'Secret_key'
+app.secret_key = 'SECRET_KEY'
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://razabaqir:raza@localhost/smart_underage_driver_detector'
@@ -71,6 +71,7 @@ def internal_server_error(e):
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     if request.method == 'POST':
         email = request.form.get('email').strip()
         password = request.form.get('password')
