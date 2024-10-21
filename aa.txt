@@ -1,0 +1,5 @@
+Password must be at least 8 characters long and include both letters and numbers.
+Account created successfully! appear on all pages
+
+
+sign up with password -1

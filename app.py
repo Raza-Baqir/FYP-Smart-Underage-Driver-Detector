@@ -71,7 +71,6 @@ def internal_server_error(e):
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST':
         email = request.form.get('email').strip()
         password = request.form.get('password')
@@ -93,15 +92,13 @@ def login():
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid credentials! Please try again.', 'error')
-            return redirect(url_for('login'))  # Redirect to login with error
+            return redirect(url_for('login')) 
 
     return render_template('login.html')
-
 
 # Signup route 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -115,19 +112,19 @@ def signup():
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('User already exists!', 'error')
-            return render_template('signup.html')
+            return render_template('signup.html', name=name, email=email, phone=phone)
 
         # Phone validation
         if not re.match(phone_regex, phone):
             flash('Invalid phone number! It should be 11 digits long.', 'error')
-            # return render_template('signup.html',name=name, email=email)
+            return render_template('signup.html',name=name, email=email, phone=phone)
 
         # Password validation
         if not re.match(password_regex, password):
             flash('Password must be at least 8 characters long and include both letters and numbers.', 'error')
-            # return render_template('signup.html', name=name, email=email, phone=phone)
+            return render_template('signup.html', name=name, email=email, phone=phone)
 
-        # Create a new user if no errors
+        # Create a new user if validation pass
         new_user = User(name = name, email=email, phone=phone, password=generate_password_hash(password))
         db.session.add(new_user)
         db.session.commit()
