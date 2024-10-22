@@ -102,3 +102,20 @@ body {
     background-color: #d4edda;
     color: #155724;
 }
+
+
+/* Bottom text */
+.form-box p {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 20px;
+}
+
+.form-box a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.form-box a:hover {
+    text-decoration: underline;
+}

@@ -67,6 +67,23 @@ form button:hover {
     background-color: #264c28;
 }
 
+/* Bottom text */
+form p {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 20px;
+}
+
+form a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+
 /* Table styles */
 table {
     width: 100%;
@@ -149,3 +166,4 @@ table img {
     font-weight: bold;
     margin: 0 10px;
 }
+

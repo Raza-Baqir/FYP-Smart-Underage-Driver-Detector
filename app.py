@@ -9,6 +9,7 @@ from datetime import datetime , timedelta
 from flask_migrate import Migrate
 
 import re
+
 app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(minutes=30)
@@ -20,7 +21,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://razabaqir:raza@l
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
 migrate = Migrate(app, db)
 
 # Define the User model
@@ -46,7 +46,6 @@ class Result(db.Model):
     date_time = db.Column(db.DateTime, nullable=False)
     image_path = db.Column(db.String(200), nullable=False)
     underage_status = db.Column(db.Boolean, nullable=False)
-
     location = db.relationship('Location', backref=db.backref('results', lazy=True))
 
 # Create the database tables
@@ -142,10 +141,12 @@ def signup():
 # Update Profile route
 @app.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
-    if 'email' not in session:
+    # Check if user is logged in
+    if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    user = User.query.filter_by(email=session['email']).first()
+    # Fetch the user based on user_id in the session
+    user = User.query.get(session['user_id'])
 
     if request.method == 'POST':
         # Get updated information from the form
@@ -153,14 +154,16 @@ def update_profile():
         user.email = request.form['email']
         user.phone = request.form['phone']
 
-        # Optionally, update password
-        if request.form['password']:
+        # Optionally, update password if provided
+        if request.form['password']:  # Check if the password field is not empty
             user.password = generate_password_hash(request.form['password'])
 
+        # Commit changes to the database
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('dashboard'))
 
+    # Render the update profile form with current user data
     return render_template('update_profile.html', user=user)
 
 
@@ -205,7 +208,7 @@ def add_location():
             db.session.commit()
 
             flash('Location added successfully!', 'success')
-            return redirect(url_for('dashboard'))
+
 
         except Exception as e:
             db.session.rollback()
@@ -234,8 +237,7 @@ def delete_location():
             flash('Location deleted successfully!', 'success')
         else:
             flash('Location not found!', 'error')
-
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('delete_location'))
 
     return render_template('delete_location.html', locations=locations)
 
@@ -253,20 +255,16 @@ def show_results():
         return redirect(url_for('login'))
     locations = Location.query.all()
     location_filter = request.args.get('location', None)
-    underage_filter = request.args.get('underage_status', None)
     start_date = request.args.get('start_date', None)
     end_date = request.args.get('end_date', None)
 
     query = Result.query.join(Location).add_columns(
-        Result.id, Result.date_time, Result.image_path, Result.underage_status, Location.location_name
+        Result.id, Result.date_time, Result.image_path,  Location.location_name
     )
 
     if location_filter:
         query = query.filter(Location.location_name == location_filter)
 
-    if underage_filter:
-        underage_bool = True if underage_filter == "Yes" else False
-        query = query.filter(Result.underage_status == underage_bool)
 
     if start_date and end_date:
         start = datetime.strptime(start_date, '%Y-%m-%d')
@@ -278,14 +276,13 @@ def show_results():
     pagination = query.paginate(page=page, per_page=per_page)
 
     # Check if any filters have been applied
-    filters_applied = any([location_filter, underage_filter, start_date, end_date])
+    filters_applied = any([location_filter, start_date, end_date])
 
     return render_template(
         'show_results.html', 
         results=pagination.items, 
         pagination=pagination, 
         location_filter=location_filter, 
-        underage_filter=underage_filter, 
         start_date=start_date, 
         end_date=end_date , 
         locations = locations , 

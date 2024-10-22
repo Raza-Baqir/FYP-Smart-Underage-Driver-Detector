@@ -37,7 +37,9 @@
             <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
 
             <button type="submit" class="submit-btn">Filter</button>
+            <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
         </form>
+        
 
         {% if filters_applied %}
             {% if results %}
