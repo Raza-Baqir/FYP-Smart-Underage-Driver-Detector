@@ -223,8 +223,6 @@ def delete_location():
     if 'email' not in session:
         return redirect(url_for('login'))
 
-    session.pop('_flashes', None)
-
     locations = Location.query.all()
 
     if request.method == 'POST':
