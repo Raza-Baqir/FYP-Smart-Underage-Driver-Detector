@@ -3,16 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/start_capturing.css') }}">
     <title>Start Capturing</title>
 </head>
 <body>
 
     <div class="form-container">
         <h2>Start Capturing Images</h2>
-        <p>We will integrate camera functionality here.</p>
-        <!-- We ill integrate camera functionality here -->
+
+        <!-- Video element to display the camera feed -->
+        <video id="videoElement" autoplay></video>
+
+        <!-- Buttons for starting and stopping capture -->
+        <button id="startButton" onclick="startCapture()">Start Capture</button>
+        <button id="stopButton" onclick="stopCapture()" disabled>Stop Capture</button>
+        <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
     </div>
+
+    <script>
+        let mediaStream = null;
+
+        // Start capture function to access the camera
+        function startCapture() {
+            // Get the video element
+            const video = document.getElementById('videoElement');
+            
+            // Access the camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    // Set the video stream to the video element
+                    video.srcObject = stream;
+                    mediaStream = stream;  // Save the stream to stop it later
+
+                    // Disable start button and enable stop button
+                    document.getElementById('startButton').disabled = true;
+                    document.getElementById('stopButton').disabled = false;
+                })
+                .catch(function(error) {
+                    console.log("Error accessing camera: ", error);
+                });
+        }
+
+        // Stop capture function to stop the camera feed
+        function stopCapture() {
+            // Get the video element
+            const video = document.getElementById('videoElement');
+            
+            // Stop the video stream
+            if (mediaStream) {
+                let tracks = mediaStream.getTracks();
+                tracks.forEach(track => track.stop());  // Stop all tracks (video/audio)
+                video.srcObject = null;
+            }
+
+            // Disable stop button and enable start button
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('stopButton').disabled = true;
+        }
+    </script>
 
 </body>
 </html>

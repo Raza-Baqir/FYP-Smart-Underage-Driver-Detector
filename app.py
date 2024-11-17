@@ -45,7 +45,6 @@ class Result(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
     date_time = db.Column(db.DateTime, nullable=False)
     image_path = db.Column(db.String(200), nullable=False)
-    underage_status = db.Column(db.Boolean, nullable=False)
     location = db.relationship('Location', backref=db.backref('results', lazy=True))
 
 # Create the database tables
@@ -239,10 +238,11 @@ def delete_location():
 
     return render_template('delete_location.html', locations=locations)
 
-# Start Capturing route
+# Route to render the Start Capturing page
 @app.route('/start_capturing')
 def start_capturing():
     return render_template('start_capturing.html')
+
 
 # Show Results route
 @app.route('/show_results', methods=['GET', 'POST'])
@@ -251,6 +251,7 @@ def show_results():
     session.pop('_flashes',None)
     if 'email' not in session:
         return redirect(url_for('login'))
+        
     locations = Location.query.all()
     location_filter = request.args.get('location', None)
     start_date = request.args.get('start_date', None)
